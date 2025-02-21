@@ -1,0 +1,18 @@
+In order to start the project use eclipse or intelij IDEA
+**pom.xml** file has all necessary dependencies to build the project.
+
+The project utilizes page object model and has a base login page and
+a couple of test to check login functionality.
+
+The project tests a web-page with Selenium, TestNg and Maven.
+
+In order to run the tests please start the project with:
+
+Go to Run → Edit Configurations.
+Select your TestNG configuration.
+Under Suite, select "Suite XML files" instead of "Class".
+Click "+" → Select your actual testng.xml file` (from your project root).
+Click Apply → OK and run the test.
+
+We are not exposing creds of the app and this is why we use textng.xml
+approach. And store values inside that file.

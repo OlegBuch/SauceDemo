@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Suite">
+    <test name="Test">
+        <parameter name="username" value="" />
+        <parameter name="password" value="" />
+        <parameter name="incorrectUsername" value="user" />
+        <parameter name="incorrectPassword" value="sauce" />
+        <classes>
+            <class name="CheckLoginPage" />
+        </classes>
+    </test>
+</suite>
