@@ -1,7 +1,6 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -11,14 +10,13 @@ import pages.login.LoginPagePo;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class CheckLoginPage {
-    private String url = "https://www.saucedemo.com/";
+public class CheckLoginPageTest {
+    private final String url = "https://www.saucedemo.com/";
     private WebDriver driver;
     private LoginPagePo objLoginPage;
 
     @BeforeClass
     public void setup() {
-        ChromeOptions options = new ChromeOptions();
 
         driver = new ChromeDriver();
         objLoginPage = new LoginPagePo(driver);
