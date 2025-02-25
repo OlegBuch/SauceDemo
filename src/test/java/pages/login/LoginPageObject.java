@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class LoginPagePo {
+public class LoginPageObject {
     WebDriver driver;
     public By login = By.id("user-name");
     public By password = By.id("password");
@@ -17,7 +17,7 @@ public class LoginPagePo {
     public By shoppingCart = By.cssSelector("[data-test=\"shopping-cart-link\"]");
     public By errorText = By.cssSelector("[data-test=\"error\"]");
 
-    public LoginPagePo(WebDriver driver) {
+    public LoginPageObject(WebDriver driver) {
         this.driver = driver;
     }
 

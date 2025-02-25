@@ -8,26 +8,26 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pages.inventory.InventoryPagePo;
-import pages.login.LoginPagePo;
+import pages.inventory.InventoryPageObject;
+import pages.login.LoginPageObject;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
-public class CheckInventoryPageTest {
+public class CheckInventoryTest {
     private WebDriver driver;
     private WebDriverWait wait;
-    private InventoryPagePo objInventoryPage;
-    private LoginPagePo objLoginPage;
+    private InventoryPageObject objInventoryPage;
+    private LoginPageObject objLoginPage;
 
     @BeforeClass
     @Parameters({"username", "password"})
     public void setup(String username, String password) {
         String url = "https://www.saucedemo.com/";
         driver = new ChromeDriver();
-        objLoginPage = new LoginPagePo(driver);
-        objInventoryPage = new InventoryPagePo(driver);
+        objLoginPage = new LoginPageObject(driver);
+        objInventoryPage = new InventoryPageObject(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get(url);
         objLoginPage.enterCredentialsAndSubmit(username, password);
@@ -69,6 +69,17 @@ public class CheckInventoryPageTest {
     }
 
     @Test
+    public void removeFromCartCheck(){
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(objInventoryPage.removeFromCartButton));
+        List<WebElement> removeFromCartElements = driver.findElements(objInventoryPage.removeFromCartButton);
+        Assert.assertTrue(removeFromCartElements.size() >= 2, "Not enough 'Remove from Cart' buttons found!");
+        removeFromCartElements.get(0).click();
+        removeFromCartElements.get(1).click();
+        boolean isCartBadgeInvisible = wait.until(ExpectedConditions.invisibilityOfElementLocated(objInventoryPage.shoppingCartBadge));
+        Assert.assertTrue(isCartBadgeInvisible, "Shopping cart badge is still visible, but it should be removed.");
+    }
+
+    @Test(dependsOnMethods = "removeFromCartCheck")
     public void openFooterLinks(){
         Set<String> oldWindows = driver.getWindowHandles();
 

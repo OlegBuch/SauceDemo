@@ -5,21 +5,20 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pages.login.LoginPagePo;
+import pages.login.LoginPageObject;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class CheckLoginPageTest {
+public class CheckLoginTest {
     private final String url = "https://www.saucedemo.com/";
     private WebDriver driver;
-    private LoginPagePo objLoginPage;
+    private LoginPageObject objLoginPage;
 
     @BeforeClass
     public void setup() {
-
         driver = new ChromeDriver();
-        objLoginPage = new LoginPagePo(driver);
+        objLoginPage = new LoginPageObject(driver);
     }
 
     @Test
