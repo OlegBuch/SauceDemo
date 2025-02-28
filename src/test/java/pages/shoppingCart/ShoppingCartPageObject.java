@@ -8,12 +8,6 @@ import org.openqa.selenium.support.PageFactory;
 public class ShoppingCartPageObject {
     WebDriver driver;
 
-    /*@FindBy(className = "bm-burger-button")
-    public WebElement menuButton;
-
-    @FindBy(className = "bm-cross-button")
-    public WebElement closeMenuButton;
-    */
     @FindBy(css = "[data-test=\"continue-shopping\"]")
     public WebElement continueShoppingButton;
 
@@ -72,29 +66,9 @@ public class ShoppingCartPageObject {
         continueButtonCheckoutPage.click();
     }
 
-    /*public void clickCheckout() {
-        checkoutButton.click();
-    }*/
-
     public void clickFinishCheckout() {
         finishCheckButton.click();
     }
-/*
-
-    public void clickBackToProducts() {
-        backHomeButton.click();
-    }
-*/
-/*
-
-    public void clickContinueShopping() {
-        continueShoppingButton.click();
-    }
-
-    public void clickCancelCheckout() {
-        cancelCheckoutButton.click();
-    }
-*/
 
     public boolean isPaymentInfoDisplayed() {
         return paymentInfoValue.isDisplayed();

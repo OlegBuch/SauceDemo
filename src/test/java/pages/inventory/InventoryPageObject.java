@@ -27,9 +27,6 @@ public class InventoryPageObject {
     @FindBy(css = ".inventory_item_price:first-of-type")
     public WebElement inventoryItemPriceFirst;
 
-    /*@FindBy(css = ".btn.btn_primary.btn_small.btn_inventory:nth-of-type(1)")
-    public  By addToCartButton;*/
-
     @FindBy(css = ".btn.btn_primary.btn_small.btn_inventory")
     public List<WebElement> addToCartButton;
 
@@ -44,12 +41,6 @@ public class InventoryPageObject {
 
     @FindBy(className = "inventory_item_name")
     public WebElement inventoryItemName;
-
-    @FindBy(className = "inventory_item_description")
-    public WebElement inventoryItemDescription;
-
-    @FindBy(className = "inventory_item_price")
-    public WebElement inventoryItemPrice;
 
     @FindBy(css = ".cart_item .inventory_item_name")
     public List<WebElement> shoppingCartNames;

@@ -6,10 +6,10 @@
         <parameter name="incorrectUsername" value="user" />
         <parameter name="incorrectPassword" value="sauce" />
         <classes>
-            <!--<class name="CheckLoginTest" />-->
+            <class name="CheckLoginTest" />
             <class name="CheckInventoryTest" />
-            <!--<class name="CheckMainMenuTest" />
-            <class name="CheckShoppingCartTest" />-->
+            <class name="CheckMainMenuTest" />
+            <class name="CheckShoppingCartTest" />
         </classes>
     </test>
 </suite>
