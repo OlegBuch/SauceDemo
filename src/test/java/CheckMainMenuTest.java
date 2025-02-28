@@ -1,5 +1,5 @@
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,8 +13,6 @@ import pages.mainMenu.MainMenuPageObject;
 
 import java.time.Duration;
 
-import static org.testng.Assert.assertTrue;
-
 public class CheckMainMenuTest {
     private WebDriver driver;
     private WebDriverWait wait;
@@ -27,7 +25,7 @@ public class CheckMainMenuTest {
         String url = "https://www.saucedemo.com/";
         driver = new ChromeDriver();
         objLoginPage = new LoginPageObject(driver);
-        objMainMenu = new MainMenuPageObject(driver);
+        objMainMenu = new MainMenuPageObject(driver); // PageFactory will initialize elements
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get(url);
         objLoginPage.enterCredentialsAndSubmit(username, password);
@@ -35,33 +33,30 @@ public class CheckMainMenuTest {
 
     @Test
     public void openAboutPage() {
-        objMainMenu.openMenuItem(driver, 2);
+        objMainMenu.openMenuItem(2); // Open the About page
         Assert.assertEquals(driver.getCurrentUrl(), "https://saucelabs.com/");
     }
 
     @Test
-    public void openCloseMenu(){
+    public void openCloseMenu() {
         driver.navigate().back();
         wait.until(ExpectedConditions.elementToBeClickable(objMainMenu.menuButton));
-        WebElement menuButton = driver.findElement(objMainMenu.menuButton);
-        menuButton.click();
+        objMainMenu.menuButton.click();
         wait.until(ExpectedConditions.elementToBeClickable(objMainMenu.closeMenuButton));
-        WebElement closeMenuButton = driver.findElement(objMainMenu.closeMenuButton);
-        closeMenuButton.click();
-        boolean closeMainMenuIcon = wait.until(ExpectedConditions.invisibilityOfElementLocated(objMainMenu.closeMenuButton));
+        objMainMenu.closeMenu();
+        boolean closeMainMenuIcon = wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("bm-cross-button")));
         Assert.assertTrue(closeMainMenuIcon, "Menu is not closed");
     }
 
     @Test
     public void selectLogout() {
         wait.until(ExpectedConditions.elementToBeClickable(objMainMenu.menuButton));
-        objMainMenu.openMenuItem(driver, 3);
-        WebElement loginInput = driver.findElement(objLoginPage.login);
-        assertTrue(loginInput.isDisplayed());
+        objMainMenu.openMenuItem(3); // Open the Logout option
+        Assert.assertTrue((objLoginPage.login).isDisplayed()); // Check if login page is displayed
     }
 
     @AfterClass
-    public void closeBrowser(){
+    public void closeBrowser() {
         if (driver != null) {
             driver.quit();
         }

@@ -9,6 +9,7 @@
             <class name="CheckLoginTest" />
             <class name="CheckInventoryTest" />
             <class name="CheckMainMenuTest" />
+            <class name="CheckShoppingCartTest" />
         </classes>
     </test>
 </suite>
