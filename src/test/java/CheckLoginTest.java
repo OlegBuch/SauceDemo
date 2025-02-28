@@ -27,10 +27,9 @@ public class CheckLoginTest {
         driver.get(url);
         objLoginPage.enterCredentialsAndSubmit(incorrectUsername, incorrectPassword);
 
-        String getErrorTextOnLogin = objLoginPage.getErrorTextOnLogin(driver);
+        String getErrorTextOnLogin = objLoginPage.getErrorTextOnLogin();
         assertEquals(getErrorTextOnLogin, "Epic sadface: Username and password do not match any user in this service");
     }
-
 
     @Test
     @Parameters({"username", "password"})
@@ -38,8 +37,8 @@ public class CheckLoginTest {
         driver.get(url);
         objLoginPage.enterCredentialsAndSubmit(username, password);
 
-        String actualTextProductElement = objLoginPage.getProductText(driver);
-        WebElement actualTextShoppingCart = objLoginPage.getShoppingCartText(driver);
+        String actualTextProductElement = objLoginPage.getProductText();
+        WebElement actualTextShoppingCart = objLoginPage.getShoppingCartText();
 
         // Assert that the actual text matches the expected text
         assertTrue(actualTextShoppingCart.isDisplayed());
@@ -47,10 +46,9 @@ public class CheckLoginTest {
     }
 
     @AfterClass
-    public void closeBrowser(){
+    public void closeBrowser() {
         if (driver != null) {
             driver.quit();
         }
     }
 }
-

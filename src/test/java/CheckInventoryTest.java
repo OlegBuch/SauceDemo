@@ -1,3 +1,4 @@
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -33,57 +34,58 @@ public class CheckInventoryTest {
         objLoginPage.enterCredentialsAndSubmit(username, password);
     }
 
-    @Test
+    @Test(priority = -1)
     public void checkSorting() {
-
         // Wait for the dropdown to be clickable
-        WebElement sortingDropdown = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.sortingDropdown));
+        WebElement sortingDropdown = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.getSortingDropdown()));
         sortingDropdown.click();
 
         // Wait for the second option to be clickable
-        WebElement secondOption = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.descendingOrderOption));
+        WebElement secondOption = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.getDescendingOrderOption()));
         secondOption.click();
 
-        WebElement firstItem = wait.until(ExpectedConditions.visibilityOfElementLocated(objInventoryPage.inventoryItemNameFirst));
+        WebElement firstItem = wait.until(ExpectedConditions.visibilityOf(objInventoryPage.getInventoryItemNameFirst()));
         String textOfTheFirstItem = firstItem.getText();
         Assert.assertNotEquals(textOfTheFirstItem, "\"^[^A].*\"");
 
-        sortingDropdown = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.sortingDropdown));
+        sortingDropdown = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.getSortingDropdown()));
         sortingDropdown.click();
-        WebElement thirdOption = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.pricesAscendingOrderOption));
+        WebElement thirdOption = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.getPricesAscendingOrderOption()));
         thirdOption.click();
 
-        WebElement firstItemPrice = wait.until(ExpectedConditions.visibilityOfElementLocated(objInventoryPage.inventoryItemPriceFirst));
+        WebElement firstItemPrice = wait.until(ExpectedConditions.visibilityOf(objInventoryPage.getInventoryItemPriceFirst()));
         String textOfTheFirstItemPrice = firstItemPrice.getText();
         Assert.assertNotEquals(textOfTheFirstItemPrice, "^\\d{1,2}\\.\\d{2}$");
     }
 
-    @Test
-    public void addToCartCheck(){
-        List<WebElement> addToCartElements = driver.findElements(objInventoryPage.addToCartButton);
+    @Test(priority = 1)
+    public void addToCartCheck() {
+        List<WebElement> addToCartElements = wait.until(ExpectedConditions.visibilityOfAllElements(objInventoryPage.getAddToCartButton()));
         addToCartElements.get(0).click();
         addToCartElements.get(1).click();
-        WebElement shoppingCart = wait.until(ExpectedConditions.visibilityOfElementLocated(objInventoryPage.shoppingCartBadge));
+        WebElement shoppingCart = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.getShoppingCartBadge()));
         String shoppingCartNumber = shoppingCart.getText();
         Assert.assertEquals(shoppingCartNumber, "2");
     }
 
-    @Test
-    public void removeFromCartCheck(){
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(objInventoryPage.removeFromCartButton));
-        List<WebElement> removeFromCartElements = driver.findElements(objInventoryPage.removeFromCartButton);
+    @Test (priority = 2)
+    public void removeFromCartCheck() {
+        WebElement shoppingCart = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.getShoppingCartBadge()));
+        shoppingCart.click();
+        List<WebElement> removeFromCartElements = wait.until(ExpectedConditions.visibilityOfAllElements(objInventoryPage.getRemoveFromCartButton()));
         Assert.assertTrue(removeFromCartElements.size() >= 2, "Not enough 'Remove from Cart' buttons found!");
-        removeFromCartElements.get(0).click();
-        removeFromCartElements.get(1).click();
-        boolean isCartBadgeInvisible = wait.until(ExpectedConditions.invisibilityOfElementLocated(objInventoryPage.shoppingCartBadge));
+        removeFromCartElements.getFirst().click();
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//button[contains(@id, 'remove')]"), 0));
+        removeFromCartElements.getFirst().click();
+        boolean isCartBadgeInvisible = wait.until(ExpectedConditions.invisibilityOf(objInventoryPage.getShoppingCartBadge()));
         Assert.assertTrue(isCartBadgeInvisible, "Shopping cart badge is still visible, but it should be removed.");
     }
 
-    @Test(dependsOnMethods = "removeFromCartCheck")
-    public void openFooterLinks(){
+    @Test(priority = 3)
+    public void openFooterLinks() {
         Set<String> oldWindows = driver.getWindowHandles();
 
-        WebElement linkInFooter = wait.until(ExpectedConditions.visibilityOfElementLocated(objInventoryPage.firstLinkFooter));
+        WebElement linkInFooter = wait.until(ExpectedConditions.elementToBeClickable(objInventoryPage.getFirstLinkFooter()));
         linkInFooter.click();
 
         wait.until(ExpectedConditions.numberOfWindowsToBe(oldWindows.size() + 1));
@@ -98,8 +100,8 @@ public class CheckInventoryTest {
         Assert.assertEquals(driver.getCurrentUrl(), "https://x.com/saucelabs");
     }
 
-   @AfterClass
-    public void closeBrowser(){
+    @AfterClass
+    public void closeBrowser() {
         if (driver != null) {
             driver.quit();
         }
